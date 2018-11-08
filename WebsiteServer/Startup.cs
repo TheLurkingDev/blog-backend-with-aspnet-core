@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System.IO;
+using WebsiteServer.Extensions;
 
 namespace WebsiteServer
 {
@@ -25,6 +20,8 @@ namespace WebsiteServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureCORS();
+            services.ConfigureIISIntegration();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -39,6 +36,24 @@ namespace WebsiteServer
             {
                 app.UseHsts();
             }
+
+            app.UseCors("CorsPolicy");
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
+            });
+
+            // Will get route to index.html of Vue application.
+            app.Use(async (context, next) =>
+            {
+                await next();
+
+                if(context.Response.StatusCode == 404 && Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Request.Path = "index.html";
+                    await next();
+                }
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
