@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Contracts;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WebsiteServer.Extensions
@@ -24,6 +25,11 @@ namespace WebsiteServer.Extensions
             {
 
             });
+        }
+
+        public static void ConfigureLoggerService(this IServiceCollection services)
+        {
+            services.AddSingleton<ILoggerManager, ILoggerManager>();
         }
     }
 }
