@@ -1,4 +1,4 @@
-﻿//using Entities.Models;
+﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Entities
@@ -11,6 +11,8 @@ namespace Entities
 
         }
 
-        // TODO - Add DbSet refs from Models.
+        public DbSet<Website> Websites { get; set; }
+        public DbSet<BlogCategory> BlogCategories { get; set; }
+        public DbSet<BlogPost> BlogPosts { get; set; }
     }
 }
