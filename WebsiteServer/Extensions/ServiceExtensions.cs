@@ -40,5 +40,10 @@ namespace WebsiteServer.Extensions
             var connectionString = config["sqlconnection:connectionString"];
             services.AddDbContext<RepositoryContext>(o => o.UseSqlServer(connectionString));
         }
+
+        public static void ConfigureRepositoryWrapper(this IServiceCollection services)
+        {
+            services.AddScoped<IRepositoryWrapper, IRepositoryWrapper>();
+        }
     }
 }
