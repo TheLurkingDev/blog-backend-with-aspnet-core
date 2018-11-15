@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Entities;
+using LoggerService;
+using Repository;
 
 namespace WebsiteServer.Extensions
 {
@@ -32,7 +34,7 @@ namespace WebsiteServer.Extensions
 
         public static void ConfigureLoggerService(this IServiceCollection services)
         {
-            services.AddSingleton<ILoggerManager, ILoggerManager>();
+            services.AddSingleton<ILoggerManager, LoggerManager>();
         }
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration config)
@@ -43,7 +45,7 @@ namespace WebsiteServer.Extensions
 
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
-            services.AddScoped<IRepositoryWrapper, IRepositoryWrapper>();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
         }
     }
 }
