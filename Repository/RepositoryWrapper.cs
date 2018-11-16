@@ -10,6 +10,12 @@ namespace Repository
         private IBlogPostRepository _blogPostRepository;
         private IWebsiteRepository _websiteRepository;
 
+        public RepositoryWrapper(RepositoryContext context)
+        {
+            _repositoryContext = context;
+        }
+
+
         public IBlogCategoryRepository BlogCategoryRepository
         {
             get
