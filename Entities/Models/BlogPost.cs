@@ -8,8 +8,8 @@ namespace Entities.Models
     public class BlogPost
     {
         [Key]
-        [Column("PID")]
-        public Guid Id { get; set; }
+        [Column("BlogPostID")]
+        public Guid Id { get; set; }        
 
         public string Slug { get; set; }
 
@@ -18,5 +18,7 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "DateCreated is required")]
         public DateTime DateCreated { get; set; }
+
+        public Guid BlogCategoryID { get; set; }
     }
 }

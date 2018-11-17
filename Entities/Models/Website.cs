@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Website
     {
         [Key]
-        [Column("WID")]
+        [Column("WebsiteID")]
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Website Name is required")]

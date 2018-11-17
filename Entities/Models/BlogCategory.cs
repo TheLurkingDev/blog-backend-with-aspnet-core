@@ -7,12 +7,14 @@ namespace Entities.Models
     public class BlogCategory
     {
         [Key]
-        [Column("CID")]
+        [Column("BlogCategoryID")]
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
         public string Information { get; set; }
+
+        public Guid WebsiteID { get; set; }
     }
 }
