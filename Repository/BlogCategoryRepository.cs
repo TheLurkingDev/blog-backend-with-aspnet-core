@@ -1,6 +1,9 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Repository
 {
@@ -10,6 +13,23 @@ namespace Repository
             : base(repositoryContext)
         {
 
+        }
+
+        public IEnumerable<BlogCategory> GetBlogCategoriesForWebsite(Guid websiteId)
+        {
+            return FindByCondition(categories => categories.WebsiteID == websiteId).OrderBy(categories => categories.Name);
+        }
+
+        public BlogCategory GetBlogCategoryById(Guid blogCategoryId)
+        {
+            return FindByCondition(category => category.Id == blogCategoryId).FirstOrDefault();
+        }
+
+        public void CreateBlogCategory(BlogCategory blogCategory)
+        {
+            blogCategory.Id = new Guid();
+            Create(blogCategory);
+            Save();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Entities.Models
 
         public string Information { get; set; }
 
+        [ForeignKey("WebsiteID")]
         public Guid WebsiteID { get; set; }
     }
 }
