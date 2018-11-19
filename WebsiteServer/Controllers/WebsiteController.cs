@@ -42,7 +42,7 @@ namespace WebsiteServer.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), ActionName("GetWebsiteById")]
         public IActionResult GetWebsiteById(Guid id)
         {
             try
@@ -78,7 +78,8 @@ namespace WebsiteServer.Controllers
 
                 _repositoryWrapper.WebsiteRepository.CreateWebsite(website);
 
-                return CreatedAtRoute("WebsiteById", new { id = website.Id }, website);
+                return CreatedAtAction("GetWebsiteById", new { id = website.Id }, website);
+                
             }
             catch(Exception ex)
             {
