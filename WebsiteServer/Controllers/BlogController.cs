@@ -26,14 +26,16 @@ namespace WebsiteServer.Controllers
             return Ok("pong");
         }
 
-        [HttpGet("{siteId}")]
-        public IActionResult GetAllBlogCategories(Guid siteId)
+        [HttpGet]
+        [Route("categories")]
+        public IActionResult GetAllBlogCategories([FromBody]string websiteIdString)
         {
             try
             {
+                var websiteId = Guid.Parse(websiteIdString);
                 var blogCategories = _repositoryWrapper.BlogCategoryRepository
-                .FindByCondition(category => category.WebsiteID == siteId)
-                .OrderBy(category => category.Name);
+                    .FindByCondition(category => category.WebsiteID == websiteId)
+                    .OrderBy(category => category.Name);
 
                 _loggerManager.LogInfo("Successfully fetched BlogCategories from DB");
 
