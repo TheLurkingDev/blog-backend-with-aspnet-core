@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities;
+using Entities.Extensions;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,13 @@ namespace Repository
         {
             website.Id = Guid.NewGuid();
             Create(website);
+            Save();
+        }
+
+        public void UpdateWebsite(Website dbWebsite, Website website)
+        {
+            dbWebsite.Map(website);
+            Update(dbWebsite);
             Save();
         }
     }

@@ -59,6 +59,40 @@ namespace WebsiteServer.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public IActionResult UpdateWebsite(Guid id, [FromBody] Website website)
+        {
+            try
+            {
+                if (website == null)
+                {
+                    _loggerManager.LogError("Website data from client is null");
+                    return BadRequest("Website object is null");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _loggerManager.LogError("Invalid Website object from client");
+                    return BadRequest("Website object is invalid");
+                }
+
+                var dbWebsite = _repositoryWrapper.WebsiteRepository.GetWebsiteById(id);
+                if(dbWebsite == null)
+                {
+                    _loggerManager.LogError($"Error updating Website. No Website exists with id: {id}");
+                    return BadRequest($"No Website Exists with id: {id}");
+                }
+
+                _repositoryWrapper.WebsiteRepository.UpdateWebsite(dbWebsite, website);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"An error occurred while attempting to update a website :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         [HttpPost]
         public IActionResult CreateWebsite([FromBody] Website website)
         {

@@ -9,5 +9,6 @@ namespace Contracts
         IEnumerable<Website> GetAllWebsites();
         Website GetWebsiteById(Guid websiteId);
         void CreateWebsite(Website website);
+        void UpdateWebsite(Website dbWebsite, Website website);
     }
 }
