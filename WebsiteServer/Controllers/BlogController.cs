@@ -26,6 +26,9 @@ namespace WebsiteServer.Controllers
             return Ok("pong");
         }
 
+        #region BlogCategory
+
+        
         [HttpGet]
         [Route("categories")]
         public IActionResult GetAllBlogCategories([FromBody]string websiteIdString)
@@ -48,8 +51,7 @@ namespace WebsiteServer.Controllers
             }            
         }
 
-        [HttpGet("{id}"), ActionName("GetCategoryById")]
-        [Route("category")]
+        [HttpGet("category/{id}"), ActionName("GetCategoryById")]        
         public IActionResult GetBlogCategoryById(Guid id)
         {
             try
@@ -101,5 +103,86 @@ namespace WebsiteServer.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
+        #endregion
+
+        #region BlogPost
+
+        [HttpGet("post/{id}"), ActionName("GetBlogPostById")]        
+        public IActionResult GetBlogPostById(Guid id)
+        {
+            try
+            {
+                var blogPost = _repositoryWrapper.BlogPostRepository.FindByCondition(post => post.Id == id);
+                _loggerManager.LogInfo("Successfully fetched BlogPost from DB");
+
+                return Ok(blogPost);
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"An error occurred while attempting to fetch a blog post :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+        [HttpGet]
+        [Route("posts")]
+        public IActionResult GetAllBlogPosts([FromBody]string categoryIdString)
+        {
+            try
+            {
+                var categoryId = Guid.Parse(categoryIdString);
+                var blogPosts = _repositoryWrapper.BlogPostRepository
+                    .FindByCondition(post => post.BlogCategoryID == categoryId)
+                    .OrderBy(post => post.DateCreated);
+
+                _loggerManager.LogInfo("Successfully fetched BlogPost(s) from DB");
+
+                return Ok(blogPosts);
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"An error occurred while attempting to fetch BlogPosts :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+        [HttpPost]
+        [Route("post")]
+        public IActionResult CreateBlogPost([FromBody] BlogPost blogPost)
+        {
+            try
+            {
+                if (blogPost == null)
+                {
+                    _loggerManager.LogError("BlogPost data from client is null");
+                    return BadRequest("BlogPost object is null");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _loggerManager.LogError("Invalid BlogPost object from client");
+                    return BadRequest("BlogPost object is invalid");
+                }
+
+                var existingBlogCategory = _repositoryWrapper.BlogCategoryRepository.FindByCondition(category => category.Id == blogPost.BlogCategoryID).Any();
+                if (!existingBlogCategory)
+                {
+                    _loggerManager.LogError("No associated BlogCategory found for new BlogPost");
+                    return BadRequest($"No BlogCategory exists with id: {blogPost.BlogCategoryID.ToString()}");
+                }
+
+                _repositoryWrapper.BlogPostRepository.CreateBlogPost(blogPost);
+
+                return CreatedAtAction("GetBlogPostById", new { id = blogPost.Id }, blogPost);
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"Error occurred while attempting to create a new BlogPost :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+        #endregion
     }
 }

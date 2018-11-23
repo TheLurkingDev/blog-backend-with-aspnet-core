@@ -27,7 +27,7 @@ namespace Repository
 
         public void CreateBlogCategory(BlogCategory blogCategory)
         {
-            blogCategory.Id = new Guid();
+            blogCategory.Id = Guid.NewGuid();
             Create(blogCategory);
             Save();
         }
