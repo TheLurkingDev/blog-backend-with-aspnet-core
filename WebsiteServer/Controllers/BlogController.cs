@@ -138,6 +138,29 @@ namespace WebsiteServer.Controllers
             }
         }
 
+        [HttpDelete("category/{id}")]
+        public IActionResult DeleteBlogCategory(Guid id)
+        {
+            try
+            {
+                var blogCategory = _repositoryWrapper.BlogCategoryRepository.GetBlogCategoryById(id);
+
+                if (blogCategory == null)
+                {
+                    _loggerManager.LogError($"BlogCategory with id {id} does not exist.");
+                    return NotFound();
+                }
+
+                _repositoryWrapper.BlogCategoryRepository.DeleteBlogCategory(blogCategory);
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                _loggerManager.LogError($"Error occurred while attempting to delete BlogCategory :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         #endregion
 
         #region BlogPost

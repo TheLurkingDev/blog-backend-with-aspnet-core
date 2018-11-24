@@ -39,5 +39,11 @@ namespace Repository
             Update(dbBlogCategory);
             Save();
         }
+
+        public void DeleteBlogCategory(BlogCategory blogCategory)
+        {
+            Delete(blogCategory);
+            Save();
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Contracts
         BlogCategory GetBlogCategoryById(Guid blogCategoryId);
         void CreateBlogCategory(BlogCategory blogCategory);
         void UpdateBlogCategory(BlogCategory dbBlogCategory, BlogCategory blogCategory);
+        void DeleteBlogCategory(BlogCategory blogCategory);
     }
 }
