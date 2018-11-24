@@ -9,5 +9,6 @@ namespace Contracts
         IEnumerable<BlogCategory> GetBlogCategoriesForWebsite(Guid websiteId);
         BlogCategory GetBlogCategoryById(Guid blogCategoryId);
         void CreateBlogCategory(BlogCategory blogCategory);
+        void UpdateBlogCategory(BlogCategory dbBlogCategory, BlogCategory blogCategory);
     }
 }

@@ -104,6 +104,40 @@ namespace WebsiteServer.Controllers
             }
         }
 
+        [HttpPut("category/{id}")]
+        public IActionResult UpdateBlogCategory(Guid id, [FromBody] BlogCategory blogCategory)
+        {
+            try
+            {
+                if (blogCategory == null)
+                {
+                    _loggerManager.LogError("BlogCategory data from client is null");
+                    return BadRequest("BlogCategory object is null");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _loggerManager.LogError("Invalid BlogCategory object from client");
+                    return BadRequest("BlogCategory object is invalid");
+                }
+
+                var dbBlogCategory = _repositoryWrapper.BlogCategoryRepository.GetBlogCategoryById(id);
+                if(dbBlogCategory == null)
+                {
+                    _loggerManager.LogError($"Unable to update BlogCategory. BlogCategory with id {id} does not exist.");
+                    return NotFound();
+                }
+
+                _repositoryWrapper.BlogCategoryRepository.UpdateBlogCategory(dbBlogCategory, blogCategory);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"Unable to update BlogCategory :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         #endregion
 
         #region BlogPost

@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities;
+using Entities.Extensions;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,13 @@ namespace Repository
         {
             blogCategory.Id = Guid.NewGuid();
             Create(blogCategory);
+            Save();
+        }
+
+        public void UpdateBlogCategory(BlogCategory dbBlogCategory, BlogCategory blogCategory)
+        {
+            dbBlogCategory.Map(blogCategory);
+            Update(dbBlogCategory);
             Save();
         }
     }
