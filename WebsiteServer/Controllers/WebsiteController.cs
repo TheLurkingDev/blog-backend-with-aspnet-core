@@ -121,5 +121,28 @@ namespace WebsiteServer.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteWebsite(Guid id)
+        {
+            try
+            {
+                var website = _repositoryWrapper.WebsiteRepository.GetWebsiteById(id);
+
+                if (website == null)
+                {
+                    _loggerManager.LogError($"Website with id {id} does not exist");
+                    return NotFound();
+                }
+
+                _repositoryWrapper.WebsiteRepository.DeleteWebsite(website);
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                _loggerManager.LogError($"Error occurred while attempting to delete a website :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
     }
 }

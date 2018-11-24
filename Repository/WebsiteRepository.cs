@@ -39,5 +39,11 @@ namespace Repository
             Update(dbWebsite);
             Save();
         }
+
+        public void DeleteWebsite(Website website)
+        {
+            Delete(website);
+            Save();
+        }
     }
 }

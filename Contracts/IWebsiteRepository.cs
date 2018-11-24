@@ -10,5 +10,6 @@ namespace Contracts
         Website GetWebsiteById(Guid websiteId);
         void CreateWebsite(Website website);
         void UpdateWebsite(Website dbWebsite, Website website);
+        void DeleteWebsite(Website website);
     }
 }
