@@ -140,7 +140,7 @@ namespace WebsiteServer.Controllers
             }
             catch(Exception ex)
             {
-                _loggerManager.LogError($"Error occurred while attempting to delete a website :: {ex.Message}");
+                _loggerManager.LogError($"Error occurred while attempting to delete Website :: {ex.Message}");
                 return StatusCode(500, "Internal Server Error");
             }
         }
