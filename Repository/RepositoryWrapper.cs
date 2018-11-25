@@ -9,6 +9,7 @@ namespace Repository
         private IBlogCategoryRepository _blogCategoryRepository;
         private IBlogPostRepository _blogPostRepository;
         private IWebsiteRepository _websiteRepository;
+        private IUserRepository _userRepository;
 
         public RepositoryWrapper(RepositoryContext context)
         {
@@ -52,6 +53,19 @@ namespace Repository
                 }
 
                 return _websiteRepository;
+            }
+        }
+
+        public IUserRepository UserRepository
+        {
+            get
+            {
+                if(_userRepository == null)
+                {
+                    _userRepository = new UserRepository(_repositoryContext);
+                }
+
+                return _userRepository;
             }
         }
     }
