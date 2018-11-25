@@ -14,5 +14,6 @@ namespace Entities
         public DbSet<Website> Website { get; set; }
         public DbSet<BlogCategory> BlogCategory { get; set; }
         public DbSet<BlogPost> BlogPost { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
