@@ -9,8 +9,12 @@ namespace Entities.Models
     {
         [Key]
         [Column("BlogPostID")]
-        public Guid Id { get; set; }        
+        public Guid Id { get; set; }
 
+        [Required(ErrorMessage = "Title is required")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Slug is required")]
         public string Slug { get; set; }
 
         [Required(ErrorMessage = "Content is required")]
@@ -18,6 +22,9 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "DateCreated is required")]
         public DateTime DateCreated { get; set; }
+
+        [Required(ErrorMessage = "LikeCount is required")]
+        public Int16 LikeCount { get; set; }
 
         public Guid BlogCategoryID { get; set; }
     }

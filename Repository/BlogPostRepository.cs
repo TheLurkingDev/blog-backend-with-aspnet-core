@@ -4,6 +4,7 @@ using Entities;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Entities.Extensions;
 
 namespace Repository
 {
@@ -29,6 +30,13 @@ namespace Repository
         {
             post.Id = Guid.NewGuid();
             Create(post);
+            Save();
+        }
+
+        public void UpdateBlogPost(BlogPost dbBlogPost, BlogPost blogPost)
+        {
+            dbBlogPost.Map(blogPost);
+            Update(dbBlogPost);
             Save();
         }
     }

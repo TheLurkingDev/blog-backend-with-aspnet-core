@@ -9,5 +9,6 @@ namespace Contracts
         IEnumerable<BlogPost> GetBlogPostsForCategory(Guid categoryId);
         BlogPost GetBlogPostById(Guid blogPostId);
         void CreateBlogPost(BlogPost post);
+        void UpdateBlogPost(BlogPost dbBlogPost, BlogPost blogPost);
     }
 }

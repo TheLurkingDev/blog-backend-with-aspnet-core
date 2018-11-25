@@ -240,6 +240,40 @@ namespace WebsiteServer.Controllers
             }
         }
 
+        [HttpPut("post/{id}")]
+        public IActionResult UpdateBlogPost(Guid id, [FromBody] BlogPost blogPost)
+        {
+            try
+            {
+                if (blogPost == null)
+                {
+                    _loggerManager.LogError("BlogPost data from client is null");
+                    return BadRequest("BlogPost object is null");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _loggerManager.LogError("Invalid BlogPost object from client");
+                    return BadRequest("BlogPost object is invalid");
+                }
+
+                var dbBlogPost = _repositoryWrapper.BlogPostRepository.GetBlogPostById(id);
+                if (dbBlogPost == null)
+                {
+                    _loggerManager.LogError($"Unable to update BlogPost. BlogPost with id {id} does not exist.");
+                    return NotFound();
+                }
+
+                _repositoryWrapper.BlogPostRepository.UpdateBlogPost(dbBlogPost, blogPost);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"Unable to update BlogPost :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         #endregion
     }
 }
