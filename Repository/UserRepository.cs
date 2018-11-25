@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities;
+using Entities.Extensions;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,10 @@ namespace Repository
             return FindByCondition(user => user.Id == id).FirstOrDefault();
         }
 
-        public void CreateUser(User user)
+        public void CreateUser(User user, string password)
         {
-            user.Id = Guid.NewGuid();
+            user.Id = Guid.NewGuid();            
+            (user.HashedPassword, user.Salt) = UserExtensions.CreatePasswordHash(password);
             Create(user);
             Save();
         }
