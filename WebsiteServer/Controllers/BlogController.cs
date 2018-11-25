@@ -274,6 +274,29 @@ namespace WebsiteServer.Controllers
             }
         }
 
+        [HttpDelete("post/{id}")]
+        public IActionResult DeleteBlogPost(Guid id)
+        {
+            try
+            {
+                var blogPost = _repositoryWrapper.BlogPostRepository.GetBlogPostById(id);
+
+                if (blogPost == null)
+                {
+                    _loggerManager.LogError($"BlogPost with id {id} does not exist.");
+                    return NotFound();
+                }
+
+                _repositoryWrapper.BlogPostRepository.DeleteBlogPost(blogPost);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"Error occurred while attempting to delete BlogPost :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         #endregion
     }
 }

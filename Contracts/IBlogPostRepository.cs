@@ -10,5 +10,6 @@ namespace Contracts
         BlogPost GetBlogPostById(Guid blogPostId);
         void CreateBlogPost(BlogPost post);
         void UpdateBlogPost(BlogPost dbBlogPost, BlogPost blogPost);
+        void DeleteBlogPost(BlogPost blogPost);
     }
 }
