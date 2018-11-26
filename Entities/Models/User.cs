@@ -27,6 +27,9 @@ namespace Entities.Models
         public string LastName { get; set; }
         public string Phone { get; set; }
 
+        [NotMapped]
+        public string Password { get; set; }
+
         public Guid WebsiteID { get; set; }
     }
 }
