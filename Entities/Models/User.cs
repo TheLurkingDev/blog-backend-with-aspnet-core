@@ -13,14 +13,11 @@ namespace Entities.Models
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "HashedPassword is required")]
-        public byte[] HashedPassword { get; set; }
-
-        [Required(ErrorMessage = "Salt is required")]
-        public byte[] Salt { get; set; }
-
         [Required(ErrorMessage = "DateCreated is required")]
         public DateTime DateCreated { get; set; }
+
+        public byte[] HashedPassword { get; set; }
+        public byte[] Salt { get; set; }
 
         public string Email { get; set; }
         public string FirstName { get; set; }
