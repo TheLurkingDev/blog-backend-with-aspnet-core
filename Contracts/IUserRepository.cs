@@ -8,6 +8,7 @@ namespace Contracts
     {
         IEnumerable<User> GetUsersForWebsite(Guid websiteId);
         User GetUserById(Guid id);
+        User GetUserByUserName(string Name);
         void CreateUser(User user);
     }
 }

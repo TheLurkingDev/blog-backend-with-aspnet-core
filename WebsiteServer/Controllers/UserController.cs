@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Entities.Extensions;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,7 +27,20 @@ namespace WebsiteServer.Controllers
             return Ok("pong");
         }
 
-        #region User
+        #region Auth
+
+        [Route("authenticate")]
+        public IActionResult Authenticate([FromBody] User userFromClient)
+        {
+            var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(userFromClient.UserName);
+            var isAuthenticated = UserExtensions.VerifyPasswordHash(userFromClient.Password, userFromDb.Salt, userFromDb.HashedPassword);
+
+            return Ok(isAuthenticated);
+        }
+
+        #endregion
+
+        #region UserCRUD
 
         [HttpGet("{id}"), ActionName("GetUserById")]
         public IActionResult GetUserById(Guid id)

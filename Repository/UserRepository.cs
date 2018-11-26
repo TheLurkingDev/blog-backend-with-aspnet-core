@@ -27,10 +27,15 @@ namespace Repository
             return FindByCondition(user => user.Id == id).FirstOrDefault();
         }
 
+        public User GetUserByUserName(string name)
+        {
+            return FindByCondition(user => user.UserName == name).FirstOrDefault();
+        }
+
         public void CreateUser(User user)
         {
             user.Id = Guid.NewGuid();            
-            (user.HashedPassword, user.Salt) = UserExtensions.CreatePasswordHash(user.Password);
+            (user.Salt, user.HashedPassword) = UserExtensions.CreatePasswordHash(user.Password);
             Create(user);
             Save();
         }
