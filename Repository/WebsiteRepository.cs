@@ -1,7 +1,7 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Extensions;
-using Entities.Models;
+using Entities.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

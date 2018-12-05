@@ -1,6 +1,6 @@
 ﻿using Contracts;
 using Entities.Extensions;
-using Entities.Models;
+using Entities.DataModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;

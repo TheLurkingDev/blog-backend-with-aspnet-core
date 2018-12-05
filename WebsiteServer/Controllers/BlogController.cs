@@ -1,5 +1,5 @@
 ﻿using Contracts;
-using Entities.Models;
+using Entities.DataModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;

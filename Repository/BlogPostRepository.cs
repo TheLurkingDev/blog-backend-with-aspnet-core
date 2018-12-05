@@ -1,4 +1,4 @@
-﻿using Entities.Models;
+﻿using Entities.DataModels;
 using Contracts;
 using Entities;
 using System.Collections.Generic;
