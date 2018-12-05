@@ -27,6 +27,7 @@ namespace WebsiteServer
             services.ConfigureLoggerService();
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryWrapper();
+            services.ConfigureAuthenticationWithJwt(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -64,6 +65,7 @@ namespace WebsiteServer
             });
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
