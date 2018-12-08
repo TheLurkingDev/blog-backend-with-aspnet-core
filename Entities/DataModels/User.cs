@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecurityService;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,6 +13,8 @@ namespace Entities.DataModels
 
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
+
+        public UserRole? Role { get; set; }
 
         [Required(ErrorMessage = "DateCreated is required")]
         public DateTime DateCreated { get; set; }

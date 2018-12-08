@@ -24,7 +24,7 @@ namespace Entities.DataModels
         public DateTime DateCreated { get; set; }
 
         [Required(ErrorMessage = "LikeCount is required")]
-        public Int16 LikeCount { get; set; }
+        public short LikeCount { get; set; }
 
         public Guid BlogCategoryID { get; set; }
     }
