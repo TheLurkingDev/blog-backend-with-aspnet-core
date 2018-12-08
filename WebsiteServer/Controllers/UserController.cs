@@ -33,7 +33,7 @@ namespace WebsiteServer.Controllers
         public IActionResult Login([FromBody] Entities.ClientDTOs.Login loginDto)
         {
             var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(loginDto.UserName);
-            var isAuthenticated = UserExtensions.VerifyPasswordHash(loginDto.Password, userFromDb.Salt, userFromDb.HashedPassword);
+            var isAuthenticated = loginDto.VerifyPasswordHash(userFromDb.Salt, userFromDb.HashedPassword);
 
             return Ok(isAuthenticated);
         }

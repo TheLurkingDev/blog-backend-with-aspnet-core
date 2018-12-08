@@ -35,7 +35,7 @@ namespace Repository
         public void CreateUser(User user)
         {
             user.Id = Guid.NewGuid();            
-            (user.Salt, user.HashedPassword) = UserExtensions.CreatePasswordHash(user.Password);
+            (user.Salt, user.HashedPassword) = user.CreatePasswordHash();
             Create(user);
             Save();
         }
