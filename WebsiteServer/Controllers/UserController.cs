@@ -29,11 +29,11 @@ namespace WebsiteServer.Controllers
 
         #region Auth
 
-        [Route("authenticate")]
-        public IActionResult Authenticate([FromBody] User userFromClient)
+        [Route("login")]
+        public IActionResult Login([FromBody] Entities.ClientDTOs.Login loginDto)
         {
-            var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(userFromClient.UserName);
-            var isAuthenticated = UserExtensions.VerifyPasswordHash(userFromClient.Password, userFromDb.Salt, userFromDb.HashedPassword);
+            var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(loginDto.UserName);
+            var isAuthenticated = UserExtensions.VerifyPasswordHash(loginDto.Password, userFromDb.Salt, userFromDb.HashedPassword);
 
             return Ok(isAuthenticated);
         }
