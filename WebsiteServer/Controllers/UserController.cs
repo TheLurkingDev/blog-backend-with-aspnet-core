@@ -12,7 +12,7 @@ namespace WebsiteServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private ILoggerManager _loggerManager;
@@ -47,7 +47,7 @@ namespace WebsiteServer.Controllers
 
             if(isAuthenticated)
             {
-                var tokenString = Jwt.BuildToken(_configuration);
+                var tokenString = Jwt.BuildToken(_configuration, userFromDb.Role);
                 response = Ok(new { token = tokenString });
             }
 

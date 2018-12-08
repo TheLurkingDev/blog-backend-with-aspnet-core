@@ -2,7 +2,8 @@
 {
     public enum UserRole
     {
-        ContentEditor = 0,
-        Admin = 1
+        None = 0,
+        ContentEditor = 1,
+        Admin = 2
     }
 }
