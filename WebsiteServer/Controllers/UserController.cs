@@ -6,11 +6,13 @@ using SecurityService;
 using System;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebsiteServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : Controller
     {
         private ILoggerManager _loggerManager;
@@ -33,7 +35,9 @@ namespace WebsiteServer.Controllers
 
         #region Auth
 
+        [AllowAnonymous]
         [Route("login")]
+        [HttpPost]
         public IActionResult Login([FromBody] Entities.ClientDTOs.Login loginDto)
         {
             IActionResult response = Unauthorized();
