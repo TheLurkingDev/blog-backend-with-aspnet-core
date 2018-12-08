@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Entities\Entities.csproj" />
     <ProjectReference Include="..\LoggerService\LoggerService.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
+    <ProjectReference Include="..\SecurityService\SecurityService.csproj" />
   </ItemGroup>
 
 </Project>

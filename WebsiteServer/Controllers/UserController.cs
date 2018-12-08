@@ -2,8 +2,10 @@
 using Entities.Extensions;
 using Entities.DataModels;
 using Microsoft.AspNetCore.Mvc;
+using SecurityService;
 using System;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace WebsiteServer.Controllers
 {
@@ -12,11 +14,13 @@ namespace WebsiteServer.Controllers
     public class UserController : Controller
     {
         private ILoggerManager _loggerManager;
+        private IConfiguration _configuration;
         private IRepositoryWrapper _repositoryWrapper;
 
-        public UserController(ILoggerManager loggerManager, IRepositoryWrapper repositoryWrapper)
+        public UserController(ILoggerManager loggerManager, IConfiguration configuration, IRepositoryWrapper repositoryWrapper)
         {
             _loggerManager = loggerManager;
+            _configuration = configuration;
             _repositoryWrapper = repositoryWrapper;
         }
 
@@ -32,10 +36,18 @@ namespace WebsiteServer.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] Entities.ClientDTOs.Login loginDto)
         {
+            IActionResult response = Unauthorized();
+
             var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(loginDto.UserName);
             var isAuthenticated = loginDto.VerifyPasswordHash(userFromDb.Salt, userFromDb.HashedPassword);
 
-            return Ok(isAuthenticated);
+            if(isAuthenticated)
+            {
+                var tokenString = Jwt.BuildToken(_configuration);
+                response = Ok(new { token = tokenString });
+            }
+
+            return response;
         }
 
         #endregion
