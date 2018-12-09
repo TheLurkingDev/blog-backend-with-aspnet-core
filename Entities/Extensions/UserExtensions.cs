@@ -6,6 +6,16 @@ namespace Entities.Extensions
 {
     public static class UserExtensions
     {
+        public static void Map(this User dbUser, User user)
+        {
+            dbUser.UserName = user.UserName;
+            dbUser.Email = user.Email;
+            dbUser.FirstName = user.FirstName;
+            dbUser.LastName = user.LastName;
+            dbUser.Phone = user.Phone;
+            dbUser.Role = user.Role;
+        }
+
         public static (byte[] salt, byte[] hash) CreatePasswordHash(this User user)
         {
             if(string.IsNullOrEmpty(user.Password))

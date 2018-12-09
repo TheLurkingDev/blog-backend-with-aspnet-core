@@ -132,6 +132,40 @@ namespace WebsiteServer.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(Guid id, [FromBody] User user)
+        {
+            try
+            {
+                if (user == null)
+                {
+                    _loggerManager.LogError("User data from client is null");
+                    return BadRequest("Website object is null");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _loggerManager.LogError("Invalid User object from client");
+                    return BadRequest("Website object is invalid");
+                }
+
+                var dbUser = _repositoryWrapper.UserRepository.GetUserById(id);
+                if (dbUser == null)
+                {
+                    _loggerManager.LogError($"Error updating User. No User exists with id: {id}");
+                    return BadRequest($"No User Exists with id: {id}");
+                }
+
+                _repositoryWrapper.UserRepository.UpdateUser(dbUser, user);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"An error occurred while attempting to update a User :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         [HttpDelete("user/{id}")]
         public IActionResult DeleteUser(Guid id)
         {

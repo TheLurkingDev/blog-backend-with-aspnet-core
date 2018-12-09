@@ -40,6 +40,13 @@ namespace Repository
             Save();
         }
 
+        public void UpdateUser(User dbUser, User user)
+        {
+            dbUser.Map(user);
+            Update(dbUser);
+            Save();
+        }
+
         public void DeleteUser(User user)
         {
             Delete(user);
