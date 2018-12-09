@@ -132,6 +132,29 @@ namespace WebsiteServer.Controllers
             }
         }
 
+        [HttpDelete("user/{id}")]
+        public IActionResult DeleteUser(Guid id)
+        {
+            try
+            {
+                var user = _repositoryWrapper.UserRepository.GetUserById(id);
+
+                if (user == null)
+                {
+                    _loggerManager.LogError($"User with id {id} does not exist.");
+                    return NotFound();
+                }
+
+                _repositoryWrapper.UserRepository.DeleteUser(user);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"Error occurred while attempting to delete User :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         #endregion
     }
 }

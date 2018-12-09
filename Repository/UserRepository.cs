@@ -39,5 +39,11 @@ namespace Repository
             Create(user);
             Save();
         }
+
+        public void DeleteUser(User user)
+        {
+            Delete(user);
+            Save();
+        }
     }
 }
