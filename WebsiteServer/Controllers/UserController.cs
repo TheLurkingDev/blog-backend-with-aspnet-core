@@ -26,6 +26,7 @@ namespace WebsiteServer.Controllers
             _repositoryWrapper = repositoryWrapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("ping")]
         public IActionResult Ping()

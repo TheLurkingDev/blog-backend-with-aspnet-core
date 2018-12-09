@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.DataModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace WebsiteServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "ContentEditor,Admin")]
     public class BlogController : Controller
     {
         private ILoggerManager _loggerManager;
@@ -19,6 +21,7 @@ namespace WebsiteServer.Controllers
             _repositoryWrapper = repositoryWrapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("ping")]
         public IActionResult Ping()
@@ -28,7 +31,8 @@ namespace WebsiteServer.Controllers
 
         #region BlogCategory
 
-        
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("categories")]
         public IActionResult GetAllBlogCategories([FromBody]string websiteIdString)
@@ -51,6 +55,7 @@ namespace WebsiteServer.Controllers
             }            
         }
 
+        [AllowAnonymous]
         [HttpGet("category/{id}"), ActionName("GetCategoryById")]        
         public IActionResult GetBlogCategoryById(Guid id)
         {
@@ -165,6 +170,7 @@ namespace WebsiteServer.Controllers
 
         #region BlogPost
 
+        [AllowAnonymous]
         [HttpGet("post/{id}"), ActionName("GetBlogPostById")]        
         public IActionResult GetBlogPostById(Guid id)
         {
@@ -182,6 +188,7 @@ namespace WebsiteServer.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("posts")]
         public IActionResult GetAllBlogPosts([FromBody]string categoryIdString)
