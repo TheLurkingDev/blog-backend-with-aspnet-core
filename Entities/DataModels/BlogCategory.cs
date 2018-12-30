@@ -13,9 +13,6 @@ namespace Entities.DataModels
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
-        public string Information { get; set; }
-
-        [ForeignKey("WebsiteID")]
-        public Guid WebsiteID { get; set; }
+        public string Information { get; set; }        
     }
 }

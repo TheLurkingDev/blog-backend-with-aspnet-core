@@ -78,13 +78,12 @@ namespace WebsiteServer.Controllers
 
         [HttpGet]
         [Route("users")]
-        public IActionResult GetAllUsers([FromBody]string websiteIdString)
+        public IActionResult GetAllUsers()
         {
             try
-            {
-                var websiteId = Guid.Parse(websiteIdString);
+            {                
                 var users = _repositoryWrapper.UserRepository
-                    .FindByCondition(user => user.WebsiteID == websiteId)
+                    .FindAll()
                     .OrderBy(user => user.DateCreated);
 
                 _loggerManager.LogInfo("Successfully fetched User(s) from DB");
@@ -114,14 +113,7 @@ namespace WebsiteServer.Controllers
                     _loggerManager.LogError("Invalid User object from client");
                     return BadRequest("User object is invalid");
                 }
-
-                var existingWebsite = _repositoryWrapper.WebsiteRepository.FindByCondition(website => website.Id == user.WebsiteID).Any();
-                if (!existingWebsite)
-                {
-                    _loggerManager.LogError("No associated Website found for new User");
-                    return BadRequest($"No Website exists with id: {user.WebsiteID.ToString()}");
-                }
-
+                                
                 _repositoryWrapper.UserRepository.CreateUser(user);
 
                 return CreatedAtAction("GetUserById", new { id = user.Id }, user);

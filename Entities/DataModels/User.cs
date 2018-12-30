@@ -28,8 +28,6 @@ namespace Entities.DataModels
         public string Phone { get; set; }
 
         [NotMapped]
-        public string Password { get; set; }
-
-        public Guid WebsiteID { get; set; }
+        public string Password { get; set; }        
     }
 }

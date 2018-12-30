@@ -35,13 +35,12 @@ namespace WebsiteServer.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("categories")]
-        public IActionResult GetAllBlogCategories([FromBody]string websiteIdString)
+        public IActionResult GetAllBlogCategories()
         {
             try
-            {
-                var websiteId = Guid.Parse(websiteIdString);
+            {                
                 var blogCategories = _repositoryWrapper.BlogCategoryRepository
-                    .FindByCondition(category => category.WebsiteID == websiteId)
+                    .FindAll()
                     .OrderBy(category => category.Name);
 
                 _loggerManager.LogInfo("Successfully fetched BlogCategories from DB");
@@ -89,14 +88,7 @@ namespace WebsiteServer.Controllers
                 {
                     _loggerManager.LogError("Invalid BlogCategory object from client");
                     return BadRequest("BlogCategory object is invalid");
-                }
-
-                var existingWebsite = _repositoryWrapper.WebsiteRepository.FindByCondition(website => website.Id == blogCategory.WebsiteID).Any();
-                if(!existingWebsite)
-                {
-                    _loggerManager.LogError("No associated website found for new BlogCategory");
-                    return BadRequest($"No website exists with id: {blogCategory.WebsiteID.ToString()}");
-                }
+                }                
 
                 _repositoryWrapper.BlogCategoryRepository.CreateBlogCategory(blogCategory);
 

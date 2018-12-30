@@ -14,12 +14,7 @@ namespace Repository
             : base(repositoryContext)
         {
 
-        }
-
-        public IEnumerable<BlogCategory> GetBlogCategoriesForWebsite(Guid websiteId)
-        {
-            return FindByCondition(categories => categories.WebsiteID == websiteId).OrderBy(categories => categories.Name);
-        }
+        }        
 
         public BlogCategory GetBlogCategoryById(Guid blogCategoryId)
         {

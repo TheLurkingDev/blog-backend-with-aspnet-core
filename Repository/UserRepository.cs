@@ -15,12 +15,7 @@ namespace Repository
             : base(repositoryContext)
         {
 
-        }
-
-        public IEnumerable<User> GetUsersForWebsite(Guid websiteId)
-        {
-            return FindByCondition(user => user.WebsiteID == websiteId);
-        }
+        }        
 
         public User GetUserById(Guid id)
         {
