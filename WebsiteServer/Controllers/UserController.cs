@@ -44,7 +44,12 @@ namespace WebsiteServer.Controllers
             IActionResult response = Unauthorized();
 
             var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(loginDto.UserName);
-            var isAuthenticated = loginDto.VerifyPasswordHash(userFromDb.Salt, userFromDb.HashedPassword);
+            var isAuthenticated = false;
+
+            if(userFromDb != null)
+            {
+                isAuthenticated = loginDto.VerifyPasswordHash(userFromDb.Salt, userFromDb.HashedPassword);
+            }            
 
             if(isAuthenticated)
             {

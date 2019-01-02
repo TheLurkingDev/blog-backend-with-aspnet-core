@@ -34,6 +34,8 @@ namespace WebsiteServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors("CorsPolicy");
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             LoggerManager.AddToLoggerFactory(loggerFactory);
 
@@ -46,7 +48,7 @@ namespace WebsiteServer
                 app.UseHsts();
             }
 
-            app.UseCors("CorsPolicy");
+            
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
