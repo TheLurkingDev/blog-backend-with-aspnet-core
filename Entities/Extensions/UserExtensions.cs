@@ -29,16 +29,16 @@ namespace Entities.Extensions
             }
         }
 
-        public static bool VerifyPasswordHash(this Login login, byte[] salt, byte[] hash)
+        public static bool VerifyPasswordHash(this UserCredentials userCredentials, byte[] salt, byte[] hash)
         {
-            if (string.IsNullOrEmpty(login.Password))
+            if (string.IsNullOrEmpty(userCredentials.Password))
             {
                 throw new ArgumentNullException("password", "'password' cannot be null or empty when validating password");
             }
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512(salt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(login.Password));
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(userCredentials.Password));
                 for(int i = 0; i < computedHash.Length; i++)
                 {
                     if(computedHash[i] != hash[i])

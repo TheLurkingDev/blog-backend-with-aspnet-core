@@ -39,16 +39,16 @@ namespace WebsiteServer.Controllers
         [AllowAnonymous]
         [Route("login")]
         [HttpPost]
-        public IActionResult Login([FromBody] Entities.ClientDTOs.Login loginDto)
+        public IActionResult Login([FromBody] Entities.ClientDTOs.UserCredentials userCredentials)
         {
             IActionResult response = Unauthorized();
 
-            var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(loginDto.UserName);
+            var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(userCredentials.UserName);
             var isAuthenticated = false;
 
             if(userFromDb != null)
             {
-                isAuthenticated = loginDto.VerifyPasswordHash(userFromDb.Salt, userFromDb.HashedPassword);
+                isAuthenticated = userCredentials.VerifyPasswordHash(userFromDb.Salt, userFromDb.HashedPassword);
             }            
 
             if(isAuthenticated)
