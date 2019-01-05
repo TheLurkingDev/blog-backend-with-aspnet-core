@@ -11,8 +11,8 @@ namespace Entities.DataModels
         [Column("UserID")]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "UserName is required")]
-        public string UserName { get; set; }
+        [Required(ErrorMessage = "Email is required")]
+        public string Email { get; set; }
 
         public UserRole Role { get; set; }
 
@@ -22,7 +22,7 @@ namespace Entities.DataModels
         public byte[] HashedPassword { get; set; }
         public byte[] Salt { get; set; }
 
-        public string Email { get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
