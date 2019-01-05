@@ -60,6 +60,36 @@ namespace WebsiteServer.Controllers
             return response;
         }
 
+        [AllowAnonymous]
+        [Route("register")]
+        [HttpPost]
+        public IActionResult Register([FromBody] User user)
+        {
+            try
+            {
+                if (user == null)
+                {
+                    _loggerManager.LogError("User data from client is null");
+                    return BadRequest("User object is null");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    _loggerManager.LogError("Invalid User object from client");
+                    return BadRequest("User object is invalid");
+                }
+                                
+                _repositoryWrapper.UserRepository.CreateUser(user);
+
+                return CreatedAtAction("GetUserById", new { id = user.Id }, user);
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"Error occurred while attempting to create a new User :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
         #endregion
 
         #region UserCRUD
