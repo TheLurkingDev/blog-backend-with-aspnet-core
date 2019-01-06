@@ -43,7 +43,7 @@ namespace WebsiteServer.Controllers
         {
             IActionResult response = Unauthorized();
 
-            var userFromDb = _repositoryWrapper.UserRepository.GetUserByUserName(userCredentials.UserName);
+            var userFromDb = _repositoryWrapper.UserRepository.GetUserByEmail(userCredentials.Email);
             var isAuthenticated = false;
 
             if(userFromDb != null)

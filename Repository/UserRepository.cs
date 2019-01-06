@@ -22,6 +22,11 @@ namespace Repository
             return FindByCondition(user => user.Id == id).FirstOrDefault();
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return FindByCondition(user => user.Email == email).FirstOrDefault();
+        }
+
         public User GetUserByUserName(string name)
         {
             return FindByCondition(user => user.UserName == name).FirstOrDefault();
