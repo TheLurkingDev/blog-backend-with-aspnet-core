@@ -183,13 +183,34 @@ namespace WebsiteServer.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("posts")]
-        public IActionResult GetAllBlogPosts([FromBody]string categoryIdString)
+        public IActionResult GetAllBlogPosts()
         {
             try
-            {
-                var categoryId = Guid.Parse(categoryIdString);
+            {                
                 var blogPosts = _repositoryWrapper.BlogPostRepository
-                    .FindByCondition(post => post.BlogCategoryID == categoryId)
+                    .FindAll()
+                    .OrderBy(post => post.DateCreated);
+
+                _loggerManager.LogInfo("Successfully fetched BlogPost(s) from DB");
+
+                return Ok(blogPosts);
+            }
+            catch (Exception ex)
+            {
+                _loggerManager.LogError($"An error occurred while attempting to fetch BlogPosts :: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("category-posts/{id}")]
+        public IActionResult GetAllBlogPostsForCategory(Guid id)
+        {
+            try
+            {                
+                var blogPosts = _repositoryWrapper.BlogPostRepository
+                    .FindByCondition(post => post.BlogCategoryID == id)
                     .OrderBy(post => post.DateCreated);
 
                 _loggerManager.LogInfo("Successfully fetched BlogPost(s) from DB");
